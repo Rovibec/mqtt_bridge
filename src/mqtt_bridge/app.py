@@ -70,7 +70,7 @@ def mqtt_bridge_node():
 
 def subscribe():
     global bridges
-    rospy.loginfo("Subscribing to bridges")
+    rospy.loginfo("MQTT - Subscribing to bridges")
     bridges = []
     params = rospy.get_param("~", {})
     bridge_params = params.get("bridge", [])
@@ -79,12 +79,12 @@ def subscribe():
 
 
 def _on_connect(client, userdata, flags, response_code):
-    rospy.loginfo("MQTT connected")
+    rospy.loginfo("MQTT - connected")
     subscribe()
 
 
 def _on_disconnect(client, userdata, response_code):
-    rospy.loginfo("MQTT disconnected")
+    rospy.loginfo("MQTT - disconnected")
 
 
 __all__ = ["mqtt_bridge_node"]
