@@ -1,5 +1,5 @@
 from typing import Dict, Callable
-
+import rospy
 import paho.mqtt.client as mqtt
 
 
@@ -7,8 +7,8 @@ def default_mqtt_client_factory(params: Dict) -> mqtt.Client:
     """MQTT Client factory"""
     # create client
     client_params = params.get("client", {})
-    # client = mqtt.Client("TotoSessionID", **client_params, clean_session=False)
-    client = mqtt.Client(**client_params)
+    client = mqtt.Client(rospy.get_namespace(), **client_params, clean_session=False)
+    # client = mqtt.Client(**client_params)
 
     # configure tls
     tls_params = params.get("tls", {})

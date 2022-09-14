@@ -8,6 +8,7 @@ from .util import lookup_object
 
 
 bridges = []
+FirstConnexion = True
 
 
 def create_config(mqtt_client, serializer, deserializer, mqtt_private_path):
@@ -57,7 +58,7 @@ def mqtt_bridge_node():
     mqtt_client.on_connect = _on_connect
     mqtt_client.on_disconnect = _on_disconnect
     mqtt_client.connect(**conn_params)
-    mqtt_client.reconnect_delay_set(min_delay=1, max_delay=2)
+    mqtt_client.reconnect_delay_set(min_delay=2, max_delay=3)
 
     # start MQTT loop
     mqtt_client.loop_start()
@@ -79,8 +80,11 @@ def subscribe():
 
 
 def _on_connect(client, userdata, flags, response_code):
+    global FirstConnexion
     rospy.loginfo("MQTT - connected")
-    subscribe()
+    if FirstConnexion:
+        subscribe()
+        FirstConnexion = False
 
 
 def _on_disconnect(client, userdata, response_code):
